@@ -1,10 +1,11 @@
 {
-  "name": "logger",
+  "name": "@iuzziel/logger",
   "version": "0.0.1",
   "description": "Generic js logger",
   "repository": "https://github.com/Iuzziel/logger.git",
   "author": "Iuzziel <iuzziel@hotmail.fr>",
   "license": "MIT",
+  "private": false,
   "main": "dist/logger.js",
   "types": "dist/logger.d.ts",
   "scripts": {
