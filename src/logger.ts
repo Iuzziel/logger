@@ -1,15 +1,25 @@
 import { appendFileSync } from "fs";
 
 export class Logger {
-  private logFile;
-  private isDebug;
+  private logFile: string = "undefined.log";
+  private debugEnable: boolean = false;
+  static _instance: Logger;
 
-  constructor(isDebug: boolean = false, logFile: string = "undefined.log") {
-    this.logFile = logFile;
-    this.isDebug = isDebug;
+  constructor(loggerConfig?: LoggerConfig) {
+    if (Logger._instance) {
+      throw new Error("Singleton, utiliser Logger.getInstance()");
+    }
+    if (loggerConfig) {
+      if (loggerConfig.debugEnable) {
+        this.debugEnable = loggerConfig.debugEnable;
+      }
+      if (loggerConfig.logFile) {
+        this.logFile = loggerConfig.logFile;
+      }
+    }
   }
 
-  private _log(logType: LogType, message: any) {
+  private _log(logType: LogType, message: any): void {
     let logMessage = JSON.stringify(message);
     appendFileSync(
       this.logFile,
@@ -22,22 +32,37 @@ export class Logger {
     }
   }
 
-  public info(message: any) {
+  public info(message: any): void {
     this._log(LogType.INFO, message);
   }
 
-  public error(message: any) {
+  public error(message: any): void {
     this._log(LogType.ERROR, message);
   }
 
-  public fatal(message: any) {
+  public fatal(message: any): void {
     this._log(LogType.FATAL, message);
   }
 
-  public debug(message: any) {
-    if (this.isDebug) {
+  public debug(message: any): void {
+    if (this.debugEnable) {
       this._log(LogType.DEBUG, message);
     }
+  }
+
+  public getLogFileName(): string {
+    return this.logFile;
+  }
+
+  public isDebug(): boolean {
+    return this.debugEnable;
+  }
+
+  static getInstance(): Logger {
+    if (!Logger._instance) {
+      Logger._instance = new Logger();
+    }
+    return Logger._instance;
   }
 }
 
@@ -47,4 +72,9 @@ enum LogType {
   FATAL = "FATAL",
   DEBUG = "DEBUG"
 }
+export interface LoggerConfig {
+  debugEnable?: boolean;
+  logFile?: string;
+}
+
 export default Logger;
