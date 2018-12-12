@@ -1,6 +1,6 @@
 {
   "name": "@iuzziel/logger",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Generic js logger",
   "repository": "https://github.com/Iuzziel/logger.git",
   "author": "Iuzziel <iuzziel@hotmail.fr>",
@@ -13,7 +13,7 @@
     "build": "tsc"
   },
   "devDependencies": {
-    "@types/node": "^10.11.0",
-    "typescript": "^3.1.4"
+    "@types/node": "^10.12.12",
+    "typescript": "^3.2.2"
   }
 }
