@@ -1,4 +1,4 @@
-import { appendFileSync } from "fs";
+import { appendFile } from "fs";
 
 export class Logger {
     private logFile: string = "undefined.log";
@@ -21,9 +21,10 @@ export class Logger {
 
     private _log(logType: LogType, message: any): void {
         let logMessage = JSON.stringify(message);
-        appendFileSync(
-            this.logFile,
-            `[${new Date().toLocaleString()}][${logType}] ${logMessage}\r\n`
+        appendFile(this.logFile,
+            `[${new Date().toLocaleString()}][${logType}] ${logMessage}\r\n`, err => {
+                console.error(err);
+            }
         );
         if (logType == LogType.INFO || logType == LogType.DEBUG) {
             console.log(logMessage);
